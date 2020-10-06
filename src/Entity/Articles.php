@@ -2,13 +2,32 @@
 
 namespace App\Entity;
 
+use App\Entity\Rayons;
 use Doctrine\ORM\Mapping as ORM;
-
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Annotation\ApiFilter;
+ 
 /**
  * Articles
  *
  * @ORM\Table(name="articles", indexes={@ORM\Index(name="articles_rayon_id_foreign", columns={"rayon_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ArticlesRepository")
+ * 
+ * @ApiResource(
+ *      attributes={
+ *          "order"={"createdAt":"DESC"},
+ *      },      
+ *      paginationItemsPerPage=3,
+ *      collectionOperations={
+ *          "get", "post"
+ *      },
+ *      itemOperations={
+ *          "get", "patch", "delete"    
+ *      },
+ * )
+ * 
+ * @ApiFilter(SearchFilter::class, properties={"rayon": "exact"})
  */
 class Articles
 {

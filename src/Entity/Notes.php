@@ -3,12 +3,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * Notes
  *
  * @ORM\Table(name="notes", indexes={@ORM\Index(name="notes_user_id_foreign", columns={"user_id"}), @ORM\Index(name="notes_categorie_id_foreign", columns={"categorie_id"})})
  * @ORM\Entity
+ * 
+ * @ApiResource
  */
 class Notes
 {

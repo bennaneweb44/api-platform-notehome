@@ -3,12 +3,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * RayonsInfos
  *
  * @ORM\Table(name="rayons_infos")
  * @ORM\Entity
+ * 
+ * @ApiResource
  */
 class RayonsInfos
 {

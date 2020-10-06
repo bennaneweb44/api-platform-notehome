@@ -3,12 +3,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * ModificationsDemandees
  *
  * @ORM\Table(name="modifications_demandees")
  * @ORM\Entity
+ * 
+ * @ApiResource
  */
 class ModificationsDemandees
 {

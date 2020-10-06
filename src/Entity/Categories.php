@@ -3,12 +3,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * Categories
  *
  * @ORM\Table(name="categories")
  * @ORM\Entity
+ * 
+ * @ApiResource
  */
 class Categories
 {

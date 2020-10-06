@@ -3,12 +3,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * Partages
  *
  * @ORM\Table(name="partages")
  * @ORM\Entity
+ * 
+ * @ApiResource
  */
 class Partages
 {
