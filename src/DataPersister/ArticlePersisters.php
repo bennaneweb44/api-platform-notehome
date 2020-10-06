@@ -6,7 +6,7 @@ use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use App\Entity\Articles;
 use Doctrine\ORM\EntityManagerInterface;
 
-class ArticlePersisterss implements DataPersisterInterface
+class ArticlePersisters implements DataPersisterInterface
 {
     protected $em;
 
