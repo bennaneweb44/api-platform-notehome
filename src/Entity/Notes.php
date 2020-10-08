@@ -4,6 +4,11 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Annotation\ApiFilter;
+
+use App\Entity\Categories;
+use App\Entity\Users;
 
 /**
  * Notes
@@ -11,7 +16,20 @@ use ApiPlatform\Core\Annotation\ApiResource;
  * @ORM\Table(name="notes", indexes={@ORM\Index(name="notes_user_id_foreign", columns={"user_id"}), @ORM\Index(name="notes_categorie_id_foreign", columns={"categorie_id"})})
  * @ORM\Entity
  * 
- * @ApiResource
+ * @ApiResource(
+ *      attributes={
+ *          "order"={"createdAt":"DESC"},
+ *      },      
+ *      paginationItemsPerPage=3,
+ *      collectionOperations={
+ *          "get", "post"
+ *      },
+ *      itemOperations={
+ *          "get", "patch", "delete"    
+ *      },
+ * )
+ * 
+ * @ApiFilter(SearchFilter::class, properties={"rayon": "exact"})
  */
 class Notes
 {
