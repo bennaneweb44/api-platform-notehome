@@ -20,10 +20,15 @@ use ApiPlatform\Core\Annotation\ApiFilter;
  *      },      
  *      paginationItemsPerPage=3,
  *      collectionOperations={
- *          "get", "post"
+ *          "get", "post",
+ *          "rayon"={
+ *              "method"="GET",
+ *              "path"="/articles/rayon/{id_rayon}",
+ *              "controller"=App\Controller\ArticleRayon::class
+ *          }
  *      },
  *      itemOperations={
- *          "get", "patch", "delete"    
+ *          "get", "patch", "delete"            
  *      },
  * )
  * 

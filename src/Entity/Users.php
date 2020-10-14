@@ -11,7 +11,6 @@ use ApiPlatform\Core\Annotation\ApiResource;
  * @ORM\Table(name="users")
  * @ORM\Entity
  * 
- * @ApiResource
  */
 class Users
 {
