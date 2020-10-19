@@ -4,14 +4,34 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * ArticlesNotes
  *
  * @ORM\Table(name="articles_notes", indexes={@ORM\Index(name="articles_notes_note_id_foreign", columns={"note_id"}), @ORM\Index(name="articles_notes_article_id_foreign", columns={"article_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ArticlesNotesRepository")
  * 
- * @ApiResource
+ * @ApiResource(
+ *      attributes={
+ *          "order"={"createdAt":"DESC"},
+ *      },      
+ *      paginationItemsPerPage=3,
+ *      collectionOperations={
+ *          "get", "post",
+ *          "deleteByArticle"={
+ *              "method"="DELETE",
+ *              "path"="/articles_notes/delete/article/{id_article}",
+ *              "controller"=App\Controller\ArticleNoteDeleteByArticle::class
+ *          }
+ *      },
+ *      itemOperations={
+ *          "get", "patch", "delete"
+ *      },
+ * )
+ * 
+ * @ApiFilter(SearchFilter::class, properties={"rayon": "exact"})
  */
 class ArticlesNotes
 {

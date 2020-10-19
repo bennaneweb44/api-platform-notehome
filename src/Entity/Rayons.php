@@ -9,7 +9,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
  * Rayons
  *
  * @ORM\Table(name="rayons", indexes={@ORM\Index(name="rayons_user_id_foreign", columns={"user_id"}), @ORM\Index(name="rayons_categorie_id_foreign", columns={"categorie_id"})})
- * @ORM\Entity(repositoryClass="App\Repository\RayonsRepository")
+ * @ORM\Entity
  * 
  * @ApiResource
  */

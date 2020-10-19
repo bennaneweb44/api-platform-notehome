@@ -22,7 +22,6 @@ class ArticlePersisters implements DataPersisterInterface
 
     public function persist($data)
     {
-        $data->setModifId(2);
         $this->em->persist($data);
         $this->em->flush();
     }
