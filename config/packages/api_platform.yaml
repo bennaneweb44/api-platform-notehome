@@ -1,5 +1,5 @@
 api_platform:
-    title: 'Symfony API Platform REST API'
+    title: 'Notehome en mode API'
     description: 'A Symfony API to manage a library'
     version: '1.0.0'
     mapping:
