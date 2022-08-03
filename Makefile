@@ -40,7 +40,7 @@ database-test: ## Intialiser la BD de test
 
 .PHONY: migrations-test
 migrations-test: ## Données de test 
-	php bin/console doctrine:fixtures:load --append --env=test
+	php bin/console doctrine:fixtures:load --no-interaction --env=test
 
 .PHONY: run-test
 run-test: database-test migrations-test  ## Exécuter les tests
@@ -62,7 +62,7 @@ exec-migration: ## Créer la structure
 
 .PHONY: fixtures
 fixtures: ## Ajout de données par défaut
-	php bin/console doctrine:fixtures:load --append
+	php bin/console doctrine:fixtures:load --no-interaction
 
 ##
 ## Project
