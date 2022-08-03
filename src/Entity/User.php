@@ -11,9 +11,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource(
-    collectionOperations: ['get' => [
+    collectionOperations: [
+        'get' => [
             'normalization_context' => ['groups' => 'user:list']
-        ], 'post',
+        ], 
+        'post',
     ],
     itemOperations: ['get' => [
             'normalization_context' => ['groups' => 'user:read'],
@@ -28,7 +30,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180, unique: true)]
+    #[ORM\Column(length: 180)]
     #[Groups(['user:list', 'user:read', 'user:write'])]
     private ?string $email = null;
 
@@ -43,7 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups('user:write')]
     private ?string $password = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     #[Groups(['user:list', 'user:read', 'user:write'])]
     private ?string $username = null;
 

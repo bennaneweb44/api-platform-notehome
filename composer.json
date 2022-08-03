@@ -12,6 +12,7 @@
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.12",
+        "lexik/jwt-authentication-bundle": "^2.16",
         "nelmio/cors-bundle": "^2.2",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.6",
@@ -34,7 +35,6 @@
     "require-dev": {
         "dama/doctrine-test-bundle": "^6.6",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "hautelook/alice-bundle": "^2.7",
         "justinrainbow/json-schema": "^5.2",
         "symfony/browser-kit": "6.1.*",
         "symfony/css-selector": "6.1.*",
