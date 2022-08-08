@@ -21,6 +21,9 @@ class Category
     #[ORM\Column(length: 255)]
     private ?string $couleur = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $icone = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,6 +49,18 @@ class Category
     public function setCouleur(string $couleur): self
     {
         $this->couleur = $couleur;
+
+        return $this;
+    }
+
+    public function getIcone(): ?string
+    {
+        return $this->icone;
+    }
+
+    public function setIcone(string $icone): self
+    {
+        $this->icone = $icone;
 
         return $this;
     }

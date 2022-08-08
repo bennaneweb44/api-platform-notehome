@@ -15,12 +15,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'get' => [
             'normalization_context' => ['groups' => 'user:list']
         ], 
-        'post',
+        'post'
     ],
-    itemOperations: ['get' => [
+    itemOperations: [
+        'get' => [
             'normalization_context' => ['groups' => 'user:read'],
             'denormalization_context' => ['groups' => 'user:write'],
-        ]
+        ],
+        'put'
     ],
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
