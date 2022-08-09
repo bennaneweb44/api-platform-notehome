@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\User;
+use App\Tools\Constants;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -59,11 +60,14 @@ class AppFixtures extends Fixture
 
     private function loadCategories(): void
     {
-        $category = new Category();
-        $category->setNom('Courses');
-        $category->setCouleur('#b0f2b6');
+        foreach(Constants::CATEGORIES_DEFAULT as $cat) {
+            $category = new Category();
+            $category->setNom($cat['nom']);
+            $category->setCouleur($cat['couleur']);
+            $category->setIcone($cat['icone']);
+            $this->manager->persist($category);
+        }
 
-        $this->manager->persist($category);
         $this->manager->flush();
     }
 }
