@@ -14,13 +14,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => ['groups' => 'user:list']
+        ],
+        'get_by_username' => [
+            'normalization_context' => ['groups' => 'user:list'],
+            'path' => '/users/username/{username}',
+            'method' => 'get'
         ], 
-        'post',
+        'post'
     ],
-    itemOperations: ['get' => [
+    itemOperations: [
+        'get' => [
             'normalization_context' => ['groups' => 'user:read'],
             'denormalization_context' => ['groups' => 'user:write'],
-        ]
+        ],
+        'put'
     ],
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
