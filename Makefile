@@ -68,5 +68,8 @@ fixtures: ## Ajout de données par défaut
 ## Project
 ## ————————————————————————————————————————————————————————————————————————
 
-.PHONY: start ## Initialiser le projet
+.PHONY: start ## Initialiser le projet en local
 start: composer-install clear-cache init-db exec-migration fixtures
+
+.PHONY: deploy ## Deploiement serveur sans fixtures
+deploy: composer-install clear-cache init-db exec-migration
