@@ -1,7 +1,7 @@
 <?php
 // api/src/DataProvider/BlogPostItemDataProvider.php
 
-namespace App\DataProvider;
+namespace App\DataProvider\User;
 
 use App\Entity\User;
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;

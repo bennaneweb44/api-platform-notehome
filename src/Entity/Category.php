@@ -4,10 +4,27 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CategoryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => 'category:list']
+        ],
+        'post'
+    ],
+    itemOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => 'category:read'],
+            'denormalization_context' => ['groups' => 'category:write'],
+        ],
+        'put',
+        'delete'
+    ],
+)]
 class Category
 {
     #[ORM\Id]
@@ -23,6 +40,14 @@ class Category
 
     #[ORM\Column(length: 255)]
     private ?string $icone = null;
+
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Note::class)]
+    private Collection $notes;
+
+    public function __construct()
+    {
+        $this->notes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -61,6 +86,36 @@ class Category
     public function setIcone(string $icone): self
     {
         $this->icone = $icone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Note>
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): self
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes->add($note);
+            $note->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): self
+    {
+        if ($this->notes->removeElement($note)) {
+            // set the owning side to null (unless already changed)
+            if ($note->getCategory() === $this) {
+                $note->setCategory(null);
+            }
+        }
 
         return $this;
     }
