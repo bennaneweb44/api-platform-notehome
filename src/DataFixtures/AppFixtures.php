@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
+use App\Entity\Note;
 use App\Entity\User;
 use App\Tools\Constants;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -39,11 +40,12 @@ class AppFixtures extends Fixture
     {
         $this->manager = $manager;
 
-        $this->loadUsers();
-        $this->loadCategories();
+        $user = $this->loadUsers();
+        $categories = $this->loadCategories();
+        $this->loadNotes($user, $categories);
     }
 
-    private function loadUsers(): void
+    private function loadUsers(): User
     {
         $admin = new User();
         $admin->setUsername($this->adminUsername);
@@ -56,18 +58,41 @@ class AppFixtures extends Fixture
 
         $this->manager->persist($admin);
         $this->manager->flush();
+
+        return $admin;
     }
 
-    private function loadCategories(): void
+    private function loadCategories(): array
     {
+        $output = [];
         foreach(Constants::CATEGORIES_DEFAULT as $cat) {
             $category = new Category();
             $category->setNom($cat['nom']);
             $category->setCouleur($cat['couleur']);
             $category->setIcone($cat['icone']);
+
+            $output[] = $category;
             $this->manager->persist($category);
         }
 
+        $this->manager->flush();
+
+        return $output;        
+    }
+
+    private function loadNotes(User $user, array $categories): void
+    {
+        foreach(Constants::NOTES_DEFAULT as $item) {
+            $note = new Note();
+            $note->setTitle($item['title']);
+            $note->setContent($item['content']);
+            $note->setType($item['type']);
+            $note->setUser($user);
+            $note->setCategory($categories[$item['category_indice']]);
+
+            $this->manager->persist($note);
+        }
+        
         $this->manager->flush();
     }
 }
