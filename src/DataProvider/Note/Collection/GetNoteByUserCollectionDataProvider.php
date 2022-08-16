@@ -1,30 +1,34 @@
 <?php
-// api/src/DataProvider/BlogPostItemDataProvider.php
 
-namespace App\DataProvider;
+namespace App\DataProvider\Note\Collection;
 
-use App\Entity\User;
+use App\Entity\Note;
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
+use App\Entity\User;
+use App\Repository\NoteRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-final class GetUserByUsernameCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
+final class GetNoteByUserCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     private $currentRequest;
+    private $noteRepository;
     private $userRepository;
 
     public function __construct(
         RequestStack $requestStack,
+        NoteRepository $noteRepository,
         UserRepository $userRepository
     ) {
         $this->currentRequest = $requestStack->getCurrentRequest();
+        $this->noteRepository = $noteRepository;
         $this->userRepository = $userRepository;
     }
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
     {
-        return User::class === $resourceClass && $operationName === 'get_by_username';
+        return Note::class === $resourceClass && $operationName === 'get_by_user';
     }
 
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
@@ -32,19 +36,19 @@ final class GetUserByUsernameCollectionDataProvider implements ContextAwareColle
         // Incomming attributes from request
         $attributes = $this->currentRequest->attributes;
 
-        // Get username
+        // User
         $parameters = $attributes->all();
-        $username = isset($parameters['username']) && 
-                    $parameters['username'] !== '' ? 
-                    $parameters['username'] : 
-                    '';
-        
-        $user = $this->userRepository->findOneBy(['username' => $username]);
+        $userId = isset($parameters['id']) && 
+                    is_numeric($parameters['id']) &&
+                    $parameters['id'] > 0 ?
+                    $parameters['id'] :
+                    0;
+        $user = $this->userRepository->findOneBy(['id' => $userId]);
 
+        // Notes
         if ($user instanceof User) {
-            return [
-                $user
-            ];
+            $notes = $this->noteRepository->findBy(['user' => $user]);
+            return $notes;
         }
 
         return [];
