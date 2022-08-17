@@ -55,7 +55,7 @@ class Note
     private ?string $content = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    #[Groups(['note:write'])]
+    #[Groups(['note:list', 'note:read', 'note:write'])]
     private ?int $type = null;
 
     #[ORM\ManyToOne(inversedBy: 'notes')]
@@ -66,6 +66,12 @@ class Note
     #[ORM\ManyToOne(inversedBy: 'notes')]
     #[Groups(['note:list', 'note:read', 'note:write'])]
     private ?Category $category = null;
+
+    #[Groups(['note:list', 'note:read'])]
+    private array $categoryArray;
+
+    #[Groups(['note:list', 'note:read'])]
+    private array $userArray;
 
     public function getId(): ?int
     {
@@ -128,6 +134,30 @@ class Note
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getCategoryArray(): array
+    {
+        return $this->categoryArray;
+    }
+
+    public function setCategoryArray(array $data): self
+    {
+        $this->categoryArray = $data;
+
+        return $this;
+    }
+
+    public function getUserArray(): array
+    {
+        return $this->userArray;
+    }
+
+    public function setUserArray(array $data): self
+    {
+        $this->userArray = $data;
 
         return $this;
     }
