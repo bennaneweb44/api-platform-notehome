@@ -84,8 +84,5 @@ update: composer-install clear-cache init-db update-migration fixtures
 ## Project : Server
 ## ————————————————————————————————————————————————————————————————————————
 
-.PHONY: start-deploy ## Initialiser le projet en local
-start-deploy: composer-install clear-cache init-db exec-migration
-
-.PHONY: update-deploy ## Start avec M.A.J de structure de BD
-update-deploy: composer-install clear-cache init-db update-migration
+.PHONY: deploy ## Initialiser le projet sur serveur (supprimer toutes les tables en BD avant)
+deploy: composer-install clear-cache init-db exec-migration
