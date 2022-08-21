@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
+use App\Entity\Element;
 use App\Entity\Note;
 use App\Entity\User;
 use App\Tools\Constants;
@@ -42,7 +43,8 @@ class AppFixtures extends Fixture
 
         $user = $this->loadUsers();
         $categories = $this->loadCategories();
-        $this->loadNotes($user, $categories);
+        $notes = $this->loadNotes($user, $categories);
+        //$this->loadElements($notes);
     }
 
     private function loadUsers(): User
@@ -80,8 +82,9 @@ class AppFixtures extends Fixture
         return $output;        
     }
 
-    private function loadNotes(User $user, array $categories): void
+    private function loadNotes(User $user, array $categories): array
     {
+        $output = [];
         foreach(Constants::NOTES_DEFAULT as $item) {
             $note = new Note();
             $note->setTitle($item['title']);
@@ -90,9 +93,29 @@ class AppFixtures extends Fixture
             $note->setUser($user);
             $note->setCategory($categories[$item['category_indice']]);
 
+            $output[] = $note;
             $this->manager->persist($note);
         }
         
+        $this->manager->flush();
+        return $output;
+    }
+
+    private function loadElements(array $notes): void
+    {
+        foreach($notes as $note) {
+            if ($note->getType() === 1) {
+                for($i = 1; $i <= 50; $i++) {
+                    $element = new Element();
+                    $element->setNom('Element : ' . $i);
+                    rand(1, 100) > $i ? $element->setPhoto(null) : $element->setPhoto('https://fr.openfoodfacts.org/images/products/356/470/055/5347/front_fr.37.full.jpg');
+                    $element->setNote($note);
+
+                    $this->manager->persist($element);
+                }
+            }
+        }
+
         $this->manager->flush();
     }
 }

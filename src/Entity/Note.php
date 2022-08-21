@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     collectionOperations: [
         'get' => [
-            'normalization_context' => ['groups' => 'note:list']
+            'normalization_context' => ['groups' => ['note:list', 'user:read', 'category:read', 'element:read']]
         ],
         'get_by_category' => [
             'normalization_context' => ['groups' => 'note:list'],
@@ -33,7 +33,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     itemOperations: [
         'get' => [
-            'normalization_context' => ['groups' => 'note:read'],
+            'normalization_context' => ['groups' => ['note:read', 'user:read', 'category:read', 'element:read']],
             'denormalization_context' => ['groups' => 'note:write'],
         ],
         'put'
@@ -59,19 +59,12 @@ class Note
     private ?int $type = null;
 
     #[ORM\ManyToOne(inversedBy: 'notes')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['note:list', 'note:read', 'note:write'])]
+    #[Groups(['note:list', 'note:read', 'user:read'])]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'notes')]
-    #[Groups(['note:list', 'note:read', 'note:write'])]
+    #[Groups(['note:list', 'note:read', 'category:read'])]
     private ?Category $category = null;
-
-    #[Groups(['note:list', 'note:read'])]
-    private array $categoryArray;
-
-    #[Groups(['note:list', 'note:read'])]
-    private array $userArray;
 
     public function getId(): ?int
     {
@@ -134,30 +127,6 @@ class Note
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
-
-        return $this;
-    }
-
-    public function getCategoryArray(): array
-    {
-        return $this->categoryArray;
-    }
-
-    public function setCategoryArray(array $data): self
-    {
-        $this->categoryArray = $data;
-
-        return $this;
-    }
-
-    public function getUserArray(): array
-    {
-        return $this->userArray;
-    }
-
-    public function setUserArray(array $data): self
-    {
-        $this->userArray = $data;
 
         return $this;
     }

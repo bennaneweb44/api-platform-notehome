@@ -56,6 +56,12 @@ init-db: ## Initialiser la BD
 	php bin/console doctrine:database:drop --force --if-exists --env=$(ENVIRONNEMENT)
 	php bin/console doctrine:database:create --if-not-exists --env=$(ENVIRONNEMENT)
 
+.PHONY: update-migration
+update-migration: ## Créer la structure
+	@rm -rf migrations/V*
+	php bin/console make:migration
+	php bin/console d:m:m -n
+
 .PHONY: exec-migration
 exec-migration: ## Créer la structure
 	php bin/console d:m:m -n
@@ -65,11 +71,11 @@ fixtures: ## Ajout de données par défaut
 	php bin/console doctrine:fixtures:load --no-interaction
 
 ##
-## Project
+## Project : Local
 ## ————————————————————————————————————————————————————————————————————————
 
 .PHONY: start ## Initialiser le projet en local
 start: composer-install clear-cache init-db exec-migration fixtures
 
-.PHONY: deploy ## Deploiement serveur sans fixtures
-deploy: composer-install clear-cache init-db exec-migration
+.PHONY: update ## Start avec M.A.J de structure de BD
+update: composer-install clear-cache init-db update-migration fixtures
