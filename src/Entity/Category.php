@@ -13,14 +13,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     collectionOperations: [
         'get' => [
-            'normalization_context' => ['groups' => 'category:list']
+            'normalization_context' => [
+                'groups' => 'category:list'
+                ]
         ],
         'post'
     ],
     itemOperations: [
         'get' => [
-            'normalization_context' => ['groups' => 'category:read'],
-            'denormalization_context' => ['groups' => 'category:write'],
+            'normalization_context' => [
+                'groups' => 'category:read'
+            ],
+            'denormalization_context' => [
+                'groups' => 'category:write'
+            ],
         ],
         'put',
         'delete'

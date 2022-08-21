@@ -15,10 +15,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     collectionOperations: [
         'get' => [
-            'normalization_context' => ['groups' => 'user:list']
+            'normalization_context' => [
+                'groups' => 'user:list'
+                ]
         ],
         'get_by_username' => [
-            'normalization_context' => ['groups' => 'user:list'],
+            'normalization_context' => [
+                'groups' => 'user:list'
+            ],
             'path' => '/users/username/{username}',
             'method' => 'get'
         ], 
@@ -26,8 +30,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     itemOperations: [
         'get' => [
-            'normalization_context' => ['groups' => 'user:read'],
-            'denormalization_context' => ['groups' => 'user:write'],
+            'normalization_context' => [
+                'groups' => 'user:read'
+            ],
+            'denormalization_context' => [
+                'groups' => 'user:write'
+            ],
         ],
         'put'
     ],

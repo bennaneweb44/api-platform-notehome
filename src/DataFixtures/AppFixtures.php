@@ -44,7 +44,7 @@ class AppFixtures extends Fixture
         $user = $this->loadUsers();
         $categories = $this->loadCategories();
         $notes = $this->loadNotes($user, $categories);
-        //$this->loadElements($notes);
+        $this->loadElements($notes);
     }
 
     private function loadUsers(): User
