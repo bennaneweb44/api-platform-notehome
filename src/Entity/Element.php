@@ -42,6 +42,7 @@ class Element
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['element:list', 'element:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
