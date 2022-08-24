@@ -56,6 +56,10 @@ class Element
     #[ORM\ManyToOne(inversedBy: 'elements')]
     private ?Note $note = null;
 
+    #[ORM\Column]
+    #[Groups(['element:list', 'element:read', 'element:write'])]
+    private ?bool $barre = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -93,6 +97,18 @@ class Element
     public function setNote(?Note $note): self
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function isBarre(): ?bool
+    {
+        return $this->barre;
+    }
+
+    public function setBarre(bool $barre): self
+    {
+        $this->barre = $barre;
 
         return $this;
     }

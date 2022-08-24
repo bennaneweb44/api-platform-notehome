@@ -110,6 +110,7 @@ class AppFixtures extends Fixture
                     $element->setNom('Element : ' . $i);
                     rand(1, 100) > $i ? $element->setPhoto(null) : $element->setPhoto('https://fr.openfoodfacts.org/images/products/356/470/055/5347/front_fr.37.full.jpg');
                     $element->setNote($note);
+                    $element->setBarre(false);
 
                     $this->manager->persist($element);
                 }
