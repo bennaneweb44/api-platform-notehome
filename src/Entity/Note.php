@@ -50,7 +50,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'groups' => 'note:write'
             ],
         ],
-        'put'
+        'put' => [
+            'denormalization_context' => [
+                'groups' => 'note:write'
+            ],
+        ]
     ],
 )]
 class Note
@@ -70,7 +74,7 @@ class Note
     private ?string $content = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    #[Groups(['note:list', 'note:read', 'note:write'])]
+    #[Groups(['note:list', 'note:read'])]
     private ?int $type = null;
 
     #[ORM\ManyToOne(inversedBy: 'notes')]
@@ -78,7 +82,7 @@ class Note
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'notes')]
-    #[Groups(['note:list', 'note:read', 'category:read'])]
+    #[Groups(['note:list', 'note:read', 'note:write', 'category:read'])]
     private ?Category $category = null;
 
     #[ORM\OneToMany(mappedBy: 'note', targetEntity: Element::class)]
