@@ -39,6 +39,18 @@ class ElementRepository extends ServiceEntityRepository
         }
     }
 
+    public function autocomplete(string $start): array
+    {
+        $result = $this->createQueryBuilder('e')
+            ->select('distinct(e.nom)')
+            ->where('e.nom LIKE :start')
+            ->setParameter('start', '%' . $start . '%')
+            ->getQuery()
+            ->getResult();
+
+        return $result;
+    }
+
 //    /**
 //     * @return Element[] Returns an array of Element objects
 //     */

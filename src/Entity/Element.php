@@ -22,6 +22,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'path' => '/elements/note/{id}',
             'method' => 'get'
         ],
+        'get_by_name_ac' => [
+            'normalization_context' => [
+                'groups' => ['element:autocomplete']
+            ],
+            'path' => '/elements/autocomplete/{start}',
+            'method' => 'get'
+        ],
         'post'
     ],
     itemOperations: [
@@ -46,7 +53,7 @@ class Element
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['element:list', 'element:read', 'element:write'])]
+    #[Groups(['element:list', 'element:autocomplete', 'element:read', 'element:write'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255, nullable: true)]
