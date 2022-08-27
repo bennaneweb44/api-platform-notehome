@@ -31,6 +31,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'put',
         'delete'
     ],
+    order: ["id" => "DESC"]
 )]
 class Category
 {

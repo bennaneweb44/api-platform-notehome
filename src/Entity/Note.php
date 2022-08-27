@@ -56,6 +56,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             ],
         ]
     ],
+    order: ["id" => "DESC"]
 )]
 class Note
 {
