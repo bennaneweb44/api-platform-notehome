@@ -75,11 +75,11 @@ class Note
     private ?string $content = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    #[Groups(['note:list', 'note:read'])]
+    #[Groups(['note:list', 'note:read', 'note:write'])]
     private ?int $type = null;
 
     #[ORM\ManyToOne(inversedBy: 'notes')]
-    #[Groups(['note:list', 'note:read', 'user:read'])]
+    #[Groups(['note:list', 'note:read', 'user:read', 'note:write'])]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'notes')]
