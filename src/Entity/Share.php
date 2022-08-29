@@ -15,13 +15,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'groups' => ['share:list', 'user:read', 'note:read']
             ],
         ],
-        'get_by_note' => [
-            'normalization_context' => [
-                'groups' => ['share:list', 'user:read', 'note:read']
-            ],
-            'path' => '/shares/note/{id}',
-            'method' => 'get'
-        ],
         'get_updated_shares_of_user' => [
             'normalization_context' => [
                 'groups' => ['share:list', 'user:read', 'note:read']

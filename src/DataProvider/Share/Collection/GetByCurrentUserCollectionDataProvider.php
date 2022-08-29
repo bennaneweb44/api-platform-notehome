@@ -2,8 +2,8 @@
 
 namespace App\DataProvider\Share\Collection;
 
-use App\Entity\Note;
 use App\Entity\Share;
+use App\Entity\User;
 use App\Repository\ShareRepository;
 use App\Repository\NoteRepository;
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
@@ -11,7 +11,7 @@ use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\Service\UserService;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-final class GetByNoteCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
+final class GetByCurrentUserCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     private $currentRequest;
     private $shareRepository;
@@ -33,30 +33,16 @@ final class GetByNoteCollectionDataProvider implements ContextAwareCollectionDat
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
     {
-        return Share::class === $resourceClass && $operationName === 'get_by_note';
+        return Share::class === $resourceClass && $operationName === 'get';
     }
 
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
     {
         $currentUser = $this->userService->getCurrentUser();
 
-        // Incomming attributes from request
-        $attributes = $this->currentRequest->attributes;
-
-        // Note
-        $parameters = $attributes->all();
-        $noteId = isset($parameters['id']) && 
-                    is_numeric($parameters['id']) &&
-                    $parameters['id'] > 0 ?
-                    $parameters['id'] :
-                    0;
-
-        $note = $this->noteRepository->findOneBy(['id' => $noteId]);
-
         // Shares
-        if ($note instanceof Note) {
+        if ($currentUser instanceof User) {
             $shares = $this->shareRepository->findBy([
-                'note' => $note,
                 'user_2' => $currentUser
             ]);
 
