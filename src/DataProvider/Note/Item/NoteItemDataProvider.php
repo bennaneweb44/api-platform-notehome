@@ -8,18 +8,22 @@ use App\Service\UserService;
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\Repository\ShareRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 final class NoteItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
+    private $entityManager;   
     private $noteRepository;
     private $userService;
     private $shareRepository;
 
     public function __construct(
+        EntityManagerInterface $entityManager,
         NoteRepository $noteRepository,
         UserService $userService,
         ShareRepository $shareRepository
     ) {
+        $this->entityManager = $entityManager;
         $this->noteRepository = $noteRepository;
         $this->userService = $userService;
         $this->shareRepository = $shareRepository;

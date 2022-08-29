@@ -48,7 +48,7 @@ class ShareRepository extends ServiceEntityRepository
             ->setParameter('user', $user->getId());
 
             if ($note) {
-                $result = $result->andWhere('s.node = :note')
+                $result = $result->andWhere('s.note = :note')
                         ->setParameter('note', $note->getId());
             }
 
