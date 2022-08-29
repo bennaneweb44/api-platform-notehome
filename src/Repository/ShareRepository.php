@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Note;
 use App\Entity\Share;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -40,15 +41,22 @@ class ShareRepository extends ServiceEntityRepository
         }
     }
 
-    public function findNotSeenUpdates(User $user): array
+    public function findNotSeenUpdates(User $user, ?Note $note): array
     {
-        return $this->createQueryBuilder('s')
+        $result = $this->createQueryBuilder('s')
             ->where('(s.user_1 = :user OR s.user_2 = :user) AND s.updated_by != :user')
-            ->setParameter('user', $user->getId())
-            ->andWhere('s.seen = 0')
-            ->getQuery()
-            ->getResult()
-        ;
+            ->setParameter('user', $user->getId());
+
+            if ($note) {
+                $result = $result->andWhere('s.node = :note')
+                        ->setParameter('note', $note->getId());
+            }
+
+            $result = $result->andWhere('s.seen = 0')
+                    ->getQuery()
+                    ->getResult();
+            
+        return $result;    
     }
 
 //    /**

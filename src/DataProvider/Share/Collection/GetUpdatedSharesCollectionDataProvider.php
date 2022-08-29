@@ -49,7 +49,7 @@ final class GetUpdatedSharesCollectionDataProvider implements ContextAwareCollec
 
         // Shares
         if ($user instanceof User) {
-            $shares = $this->shareRepository->findNotSeenUpdates($user);
+            $shares = $this->shareRepository->findNotSeenUpdates($user, null);
 
             return $shares;
         }

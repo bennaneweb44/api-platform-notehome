@@ -2,14 +2,14 @@
 
 namespace App\DataPersister;
 
-use App\Entity\Note;
-use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
+use App\Entity\Element;
 use App\Repository\ShareRepository;
 use App\Service\UserService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 
-final class NoteDataPersister implements ContextAwareDataPersisterInterface
+final class ElementDataPersister implements ContextAwareDataPersisterInterface
 {
     /**
      * @var EntityManagerInterface
@@ -38,15 +38,19 @@ final class NoteDataPersister implements ContextAwareDataPersisterInterface
     
     public function supports($data, array $context = []): bool
     {
-        return $data instanceof Note;
+        return $data instanceof Element;
     }
 
     public function persist($data, array $context = [])
     {
         $currentUser = $this->userService->getCurrentUser();
 
-        // Shares : si user_1 modifie la note, celle-ci doit passer en "non vue" pour l'autre user_2_
-        $shares = $this->shareRepository->findBy(['note' => $data]);
+        // Note
+        $note = $data->getNote();
+
+        // Shares
+        $shares = $this->shareRepository->findBy(['note' => $note]);
+
         $now = new DateTimeImmutable('now');
 
         foreach($shares as $share) {
@@ -56,7 +60,7 @@ final class NoteDataPersister implements ContextAwareDataPersisterInterface
             $this->entityManager->persist($share);
         }
 
-        // Note
+        // Element
         $this->entityManager->persist($data);
         $this->entityManager->flush();
         
@@ -65,12 +69,7 @@ final class NoteDataPersister implements ContextAwareDataPersisterInterface
 
     public function remove($data, array $context = [])
     {
-        // Remove his elements
-        foreach($data->getElements() as $elem) {
-            $this->entityManager->remove($elem);        
-        }
-        
-        // Remove Note
+        // Remove Element
         $this->entityManager->remove($data);
         $this->entityManager->flush();
     }
