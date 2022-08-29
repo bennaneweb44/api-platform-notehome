@@ -7,18 +7,22 @@ use App\Repository\NoteRepository;
 use App\Service\UserService;
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
+use App\Repository\ShareRepository;
 
 final class NoteItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
     private $noteRepository;
     private $userService;
+    private $shareRepository;
 
     public function __construct(
         NoteRepository $noteRepository,
-        UserService $userService
+        UserService $userService,
+        ShareRepository $shareRepository
     ) {
         $this->noteRepository = $noteRepository;
         $this->userService = $userService;
+        $this->shareRepository = $shareRepository;
     }
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
