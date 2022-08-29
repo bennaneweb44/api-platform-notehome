@@ -43,7 +43,7 @@ class ShareRepository extends ServiceEntityRepository
     public function findNotSeenUpdates(User $user): array
     {
         return $this->createQueryBuilder('s')
-            ->where('s.user_1 = :user OR s.user_2 = :user')
+            ->where('(s.user_1 = :user OR s.user_2 = :user) AND s.updated_by != :user')
             ->setParameter('user', $user->getId())
             ->andWhere('s.seen = 0')
             ->getQuery()

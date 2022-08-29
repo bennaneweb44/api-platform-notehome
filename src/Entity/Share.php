@@ -68,6 +68,11 @@ class Share
     #[Groups(['share:list', 'share:read', 'share:write'])]
     private ?bool $seen = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['share:list', 'share:read', 'share:write'])]
+    private ?User $updated_by = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -129,6 +134,18 @@ class Share
     public function setSeen(bool $seen): self
     {
         $this->seen = $seen;
+
+        return $this;
+    }
+
+    public function getUpdatedBy(): ?User
+    {
+        return $this->updated_by;
+    }
+
+    public function setUpdatedBy(?User $updated_by): self
+    {
+        $this->updated_by = $updated_by;
 
         return $this;
     }

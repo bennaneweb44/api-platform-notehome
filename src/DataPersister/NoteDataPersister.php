@@ -40,6 +40,7 @@ final class NoteDataPersister implements ContextAwareDataPersisterInterface
         foreach($shares as $share) {
             $share->setUpdatedAt($now);
             $share->setSeen(false);
+            $share->setUpdatedBy($data->getUser());
             $this->entityManager->persist($share);
         }
 

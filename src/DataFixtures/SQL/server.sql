@@ -173,3 +173,9 @@ INSERT INTO `element` (`id`, `note_id`, `nom`, `photo`, `barre`) VALUES
 (148, 6, 'Element : 48', NULL, 0),
 (149, 6, 'Element : 49', NULL, 0),
 (150, 6, 'Element : 50', 'https://fr.openfoodfacts.org/images/products/356/470/055/5347/front_fr.37.full.jpg', 0);
+
+INSERT INTO `share` (`id`, `user_1_id`, `user_2_id`, `note_id`, `updated_by_id`, `updated_at`, `seen`) VALUES
+(1, 1, 2, 1, 2, '2022-08-29 20:08:39', 0),
+(2, 1, 2, 2, 1, '2022-08-29 20:08:39', 0),
+(3, 1, 2, 3, 2, '2022-08-29 20:08:39', 0),
+(4, 1, 2, 4, 1, '2022-08-29 20:08:39', 0);

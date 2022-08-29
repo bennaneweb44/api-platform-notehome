@@ -5,8 +5,10 @@ namespace App\DataFixtures;
 use App\Entity\Category;
 use App\Entity\Element;
 use App\Entity\Note;
+use App\Entity\Share;
 use App\Entity\User;
 use App\Tools\Constants;
+use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -41,14 +43,17 @@ class AppFixtures extends Fixture
     {
         $this->manager = $manager;
 
-        $user = $this->loadUsers();
+        $users = $this->loadUsers();
         $categories = $this->loadCategories();
-        $notes = $this->loadNotes($user, $categories);
+        $notes = $this->loadNotes($users, $categories);
         $this->loadElements($notes);
+        $this->loadShares($users, $notes);
     }
 
-    private function loadUsers(): User
+    private function loadUsers(): array
     {
+        $output = [];
+
         $admin = new User();
         $admin->setUsername($this->adminUsername);
         $admin->setEmail($this->adminEmail);
@@ -56,12 +61,24 @@ class AppFixtures extends Fixture
         $admin->setAvatar($this->adminAvatar);
         // Password
         $hashedPassword = $this->passwordHasher->hashPassword($admin, $this->adminPassword);
-        $admin->setPassword($hashedPassword);        
-
+        $admin->setPassword($hashedPassword);
         $this->manager->persist($admin);
+        $output[] = $admin;
+
+        $user = new User();
+        $user->setUsername('Jeanne');
+        $user->setEmail('jeanne.orhon@yahoo.fr');
+        $user->setRoles(['ROLE_USER']);
+        $user->setAvatar('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSBGjSeYimOBFkTRv3VK3T8aZZ8a1GWsSFzA&usqp=CAU');
+        // Password
+        $hashedPassword = $this->passwordHasher->hashPassword($user, $this->adminPassword);
+        $user->setPassword($hashedPassword);
+        $this->manager->persist($user);
+        $output[] = $user;
+
         $this->manager->flush();
 
-        return $admin;
+        return $output;
     }
 
     private function loadCategories(): array
@@ -82,19 +99,22 @@ class AppFixtures extends Fixture
         return $output;        
     }
 
-    private function loadNotes(User $user, array $categories): array
+    private function loadNotes(array $users, array $categories): array
     {
         $output = [];
-        foreach(Constants::NOTES_DEFAULT as $item) {
-            $note = new Note();
-            $note->setTitle($item['title']);
-            $note->setContent($item['content']);
-            $note->setType($item['type']);
-            $note->setUser($user);
-            $note->setCategory($categories[$item['category_indice']]);
 
-            $output[] = $note;
-            $this->manager->persist($note);
+        foreach($users as $user) {
+            foreach(Constants::NOTES_DEFAULT as $item) {
+                $note = new Note();
+                $note->setTitle($item['title']);
+                $note->setContent($item['content']);
+                $note->setType($item['type']);
+                $note->setUser($user);
+                $note->setCategory($categories[$item['category_indice']]);
+    
+                $output[] = $note;
+                $this->manager->persist($note);
+            }
         }
         
         $this->manager->flush();
@@ -115,6 +135,33 @@ class AppFixtures extends Fixture
                     $this->manager->persist($element);
                 }
             }
+        }
+
+        $this->manager->flush();
+    }
+
+    private function loadShares(array $users, array $notes): void
+    {
+        $now = new DateTimeImmutable('now');
+        $four = 0;
+        foreach($notes as $note) {
+            if ($four <= 3) {
+                $share = new Share();
+                $share->setUser1($users[0]);
+                $share->setUser2($users[1]);
+                $share->setNote($note);
+                $share->setSeen(false);
+                $share->setUpdatedAt($now);
+                
+                if ($note->getId() % 2 == 0) {
+                    $share->setUpdatedBy($users[0]);
+                } else {
+                    $share->setUpdatedBy($users[1]);
+                }
+
+                $this->manager->persist($share);
+            }
+            $four++;
         }
 
         $this->manager->flush();
