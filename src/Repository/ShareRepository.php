@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Share;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,17 @@ class ShareRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findNotSeenUpdates(User $user): array
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.user_1 = :user OR s.user_2 = :user')
+            ->setParameter('user', $user->getId())
+            ->andWhere('s.seen = 0')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
 //    /**

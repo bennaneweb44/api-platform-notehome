@@ -2,7 +2,9 @@ INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_
 ('DoctrineMigrations\\Version20220821193837', '2022-08-21 21:38:37', 361);
 
 INSERT INTO `user` (`id`, `email`, `roles`, `password`, `username`, `avatar`) VALUES
-(1, 'asishere44@gmail.com', '[\"ROLE_ADMIN\"]', '$2y$13$vtzXK89tR0L3IBoeYVRcaOO7YV10wOojapYbuuVFyZrocq5mcjWsC', 'Admin', 'https://media-exp1.licdn.com/dms/image/C4E03AQF7jT87BmmN9w/profile-displayphoto-shrink_800_800/0/1658432730841?e=1665014400&v=beta&t=NI1XECgt6enZbAfSjHfZ7E_ZfOcHD_bBfYCF-zfM_ik');
+(1, 'asishere44@gmail.com', '[\"ROLE_ADMIN\"]', '$2y$13$IPxJ11v4j7F3QPkOkLyPKeASDr8rKE1W5HEuslr4/8O6RcvfOpHUq', 'Admin', 'https://media-exp1.licdn.com/dms/image/C4E03AQF7jT87BmmN9w/profile-displayphoto-shrink_800_800/0/1658432730841?e=1665014400&v=beta&t=NI1XECgt6enZbAfSjHfZ7E_ZfOcHD_bBfYCF-zfM_ik');
+INSERT INTO `user` (`id`, `email`, `roles`, `password`, `username`, `avatar`) VALUES
+(2, 'jeanne.orhon@yahoo.fr', '[\"ROLE_USER\"]', '$2y$13$IPxJ11v4j7F3QPkOkLyPKeASDr8rKE1W5HEuslr4/8O6RcvfOpHUq', 'Jeanne', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSBGjSeYimOBFkTRv3VK3T8aZZ8a1GWsSFzA&usqp=CAU');
 
 INSERT INTO `category` (`id`, `nom`, `couleur`, `icone`) VALUES
 (1, 'Courses', '#F5846C', 'shopping-cart'),
