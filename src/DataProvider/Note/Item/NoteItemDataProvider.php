@@ -43,5 +43,9 @@ final class NoteItemDataProvider implements ItemDataProviderInterface, Restricte
             $share->setSeen(true);
             $this->entityManager->persist($share);
         }
+
+        $this->entityManager->flush();
+
+        return $note;
     }
 }
