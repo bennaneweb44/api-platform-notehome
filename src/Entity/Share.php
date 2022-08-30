@@ -22,6 +22,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'path' => '/shares/updated/user/{id}',
             'method' => 'get'
         ],
+        'get_shares_of_note' => [
+            'normalization_context' => [
+                'groups' => ['share:list', 'user:read', 'note:read']
+            ],
+            'path' => '/shares/note/{id}',
+            'method' => 'get'
+        ],
         'post'
     ],
     itemOperations: [
