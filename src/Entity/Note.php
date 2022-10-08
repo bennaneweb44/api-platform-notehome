@@ -64,7 +64,7 @@ class Note
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['note:list'])]
+    #[Groups(['note:list', 'note:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
