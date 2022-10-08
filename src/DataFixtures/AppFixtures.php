@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Category;
 use App\Entity\Element;
 use App\Entity\Note;
+use App\Entity\Rayon;
 use App\Entity\Share;
 use App\Entity\User;
 use App\Tools\Constants;
@@ -46,7 +47,8 @@ class AppFixtures extends Fixture
         $users = $this->loadUsers();
         $categories = $this->loadCategories();
         $notes = $this->loadNotes($users, $categories);
-        $this->loadElements($notes);
+        $rayons = $this->loadRayons($notes);
+        $this->loadElements($notes, $rayons);
         $this->loadShares($users, $notes);
     }
 
@@ -121,19 +123,43 @@ class AppFixtures extends Fixture
         return $output;
     }
 
-    private function loadElements(array $notes): void
+    private function loadRayons(array $notes)
+    {
+        $output = [];
+        foreach($notes as $note) {
+            if (1 === $note->getType()) {
+                foreach(Constants::RAYONS_DEFAULT as $ray) {
+                    $rayon = new Rayon();
+                    $rayon->setNom($ray['nom']);
+                    $rayon->setNote($note);
+
+                    $output[] = $rayon;
+                    $this->manager->persist($rayon);
+                }
+            }
+        }
+
+        $this->manager->flush();
+
+        return $output;
+    }
+
+    private function loadElements(array $notes, array $rayons): void
     {
         foreach($notes as $note) {
-            if ($note->getType() === 1) {
+            if (1 === $note->getType()) {
                 for($i = 1; $i <= 50; $i++) {
                     $element = new Element();
                     $element->setNom('Element : ' . $i);
                     rand(1, 100) > $i ? $element->setPhoto(null) : $element->setPhoto('https://fr.openfoodfacts.org/images/products/356/470/055/5347/front_fr.37.full.jpg');
                     $element->setNote($note);
+                    $rayonKey = rand(0, count(Constants::RAYONS_DEFAULT) -1);
+                    $element->setRayon($rayons[$rayonKey]);
                     $element->setBarre(false);
 
                     $this->manager->persist($element);
                 }
+                
             }
         }
 

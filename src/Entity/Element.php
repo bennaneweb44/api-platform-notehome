@@ -67,6 +67,9 @@ class Element
     #[Groups(['element:list', 'element:read', 'element:write'])]
     private ?bool $barre = null;
 
+    #[ORM\ManyToOne(inversedBy: 'elements')]
+    private ?Rayon $rayon = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -116,6 +119,18 @@ class Element
     public function setBarre(bool $barre): self
     {
         $this->barre = $barre;
+
+        return $this;
+    }
+
+    public function getRayon(): ?Rayon
+    {
+        return $this->rayon;
+    }
+
+    public function setRayon(?Rayon $rayon): self
+    {
+        $this->rayon = $rayon;
 
         return $this;
     }

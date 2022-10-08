@@ -42,6 +42,27 @@ class Constants
         ]
     ];
 
+    public const RAYONS_DEFAULT = [
+        0 => [
+            'nom' => 'hygiène'
+        ],
+        1 => [
+            'nom' => 'Boulangerie'
+        ],
+        2 => [
+            'nom' => 'Boucherie'
+        ],
+        3 => [
+            'nom' => 'Fruits et légumes'
+        ],
+        4 => [
+            'nom' => 'Poissonnerie'
+        ],
+        5 => [
+            'nom' => 'Boissons'
+        ]
+    ];
+
     public const NOTES_DEFAULT = [
         0 => [
             "title" => "Première note contenu",

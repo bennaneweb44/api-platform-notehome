@@ -90,9 +90,13 @@ class Note
     #[ORM\OneToMany(mappedBy: 'note', targetEntity: Element::class)]
     private Collection $elements;
 
+    #[ORM\OneToMany(mappedBy: 'note', targetEntity: Rayon::class)]
+    private Collection $rayons;
+
     public function __construct()
     {
         $this->elements = new ArrayCollection();
+        $this->rayons = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -184,6 +188,36 @@ class Note
             // set the owning side to null (unless already changed)
             if ($element->getNote() === $this) {
                 $element->setNote(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Rayon>
+     */
+    public function getRayons(): Collection
+    {
+        return $this->rayons;
+    }
+
+    public function addRayon(Rayon $rayon): self
+    {
+        if (!$this->rayons->contains($rayon)) {
+            $this->rayons->add($rayon);
+            $rayon->setNote($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRayon(Rayon $rayon): self
+    {
+        if ($this->rayons->removeElement($rayon)) {
+            // set the owning side to null (unless already changed)
+            if ($rayon->getNote() === $this) {
+                $rayon->setNote(null);
             }
         }
 
