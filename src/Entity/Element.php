@@ -12,12 +12,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['element:list']
+                'groups' => ['element:list', 'rayon:read']
             ],
         ],
         'get_by_note' => [
             'normalization_context' => [
-                'groups' => ['element:list', 'user:read', 'category:read']
+                'groups' => ['element:list', 'user:read', 'category:read', 'rayon:read']
             ],
             'path' => '/elements/note/{id}',
             'method' => 'get'
@@ -34,7 +34,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     itemOperations: [
         'get' => [
             'normalization_context' => [
-                'groups' => ['element:read']
+                'groups' => ['element:read', 'rayon:read']
             ],
             'denormalization_context' => [
                 'groups' => 'element:write'
@@ -68,6 +68,7 @@ class Element
     private ?bool $barre = null;
 
     #[ORM\ManyToOne(inversedBy: 'elements')]
+    #[Groups(['element:list', 'element:read', 'rayon:read'])]
     private ?Rayon $rayon = null;
 
     public function getId(): ?int

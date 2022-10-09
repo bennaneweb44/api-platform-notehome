@@ -7,17 +7,32 @@ use App\Repository\RayonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RayonRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    itemOperations: [
+        'get' => [
+            'normalization_context' => [
+                'groups' => 'rayon:read'
+            ],
+            'denormalization_context' => [
+                'groups' => 'rayon:write'
+            ],
+        ],
+        'put'
+    ],
+)]
 class Rayon
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['rayon:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['rayon:read'])]
     private ?string $nom = null;
 
     #[ORM\OneToMany(mappedBy: 'rayon', targetEntity: Element::class)]
@@ -25,6 +40,7 @@ class Rayon
 
     #[ORM\ManyToOne(inversedBy: 'rayons')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['rayon:read'])]
     private ?Note $note = null;
 
     public function __construct()
