@@ -50,7 +50,7 @@ final class GetElementsByNoteCollectionDataProvider implements ContextAwareColle
         // Elements
         if ($note instanceof Note) {
             $output['note'] = $note;
-            $elements['elements'] = $this->elementRepository->findBy(
+            $output['elements'] = $this->elementRepository->findBy(
                 ['note' => $note],
                 [
                     'rayon' => 'ASC', 
