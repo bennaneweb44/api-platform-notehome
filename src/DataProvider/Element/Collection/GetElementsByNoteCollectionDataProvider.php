@@ -58,6 +58,8 @@ final class GetElementsByNoteCollectionDataProvider implements ContextAwareColle
                 ]
             );
 
+            return $elements;
+            /*
             $output['elements'] = [];
 
             foreach($elements as $elem) {
@@ -66,6 +68,7 @@ final class GetElementsByNoteCollectionDataProvider implements ContextAwareColle
             }
 
             return $output;
+            */
         }
 
         return [];
