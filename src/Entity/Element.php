@@ -29,7 +29,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'path' => '/elements/autocomplete/{start}',
             'method' => 'get'
         ],
-        'post'
+        'post' => [
+            'normalization_context' => [
+                'groups' => ['element:list', 'note:read', 'user:read', 'category:read', 'rayon:read']
+            ],
+        ],
     ],
     itemOperations: [
         'get' => [
