@@ -59,16 +59,6 @@ final class GetElementsByNoteCollectionDataProvider implements ContextAwareColle
             );
 
             return $elements;
-            /*
-            $output['elements'] = [];
-
-            foreach($elements as $elem) {
-                $rayon = $elem->getRayon()->getNom();
-                $output['elements'][$rayon][] = $elem;
-            }
-
-            return $output;
-            */
         }
 
         return [];

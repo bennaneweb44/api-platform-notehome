@@ -40,7 +40,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'groups' => 'element:write'
             ],
         ],
-        'put',
+        'put' => [
+            'normalization_context' => [
+                'groups' => ['element:read', 'rayon:read', 'note:read', 'user:read', 'category:read']
+            ],
+        ],
         'delete'
     ],
 )]
@@ -68,7 +72,7 @@ class Element
     private ?bool $barre = null;
 
     #[ORM\ManyToOne(inversedBy: 'elements')]
-    #[Groups(['element:list', 'element:read', 'rayon:read'])]
+    #[Groups(['element:list', 'element:read', 'rayon:read', 'note:read'])]
     private ?Rayon $rayon = null;
 
     public function getId(): ?int
