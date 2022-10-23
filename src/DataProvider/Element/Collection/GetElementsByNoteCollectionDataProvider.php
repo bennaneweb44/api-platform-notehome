@@ -33,8 +33,6 @@ final class GetElementsByNoteCollectionDataProvider implements ContextAwareColle
 
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
     {
-        $output = [];
-
         // Incomming attributes from request
         $attributes = $this->currentRequest->attributes;
 
@@ -49,7 +47,6 @@ final class GetElementsByNoteCollectionDataProvider implements ContextAwareColle
 
         // Elements
         if ($note instanceof Note) {
-            $output['note'] = $note;
             $elements = $this->elementRepository->findBy(
                 ['note' => $note],
                 [

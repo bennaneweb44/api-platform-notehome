@@ -47,11 +47,6 @@ class Rayon
     #[ORM\OneToMany(mappedBy: 'rayon', targetEntity: Element::class)]
     private Collection $elements;
 
-    #[ORM\ManyToOne(inversedBy: 'rayons')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['rayon:read'])]
-    private ?Note $note = null;
-
     public function __construct()
     {
         $this->elements = new ArrayCollection();
@@ -100,18 +95,6 @@ class Rayon
                 $element->setRayon(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getNote(): ?Note
-    {
-        return $this->note;
-    }
-
-    public function setNote(?Note $note): self
-    {
-        $this->note = $note;
 
         return $this;
     }

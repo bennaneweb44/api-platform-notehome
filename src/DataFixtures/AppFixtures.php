@@ -47,7 +47,7 @@ class AppFixtures extends Fixture
         $users = $this->loadUsers();
         $categories = $this->loadCategories();
         $notes = $this->loadNotes($users, $categories);
-        $rayons = $this->loadRayons($notes);
+        $rayons = $this->loadRayons();
         $this->loadElements($notes, $rayons);
         $this->loadShares($users, $notes);
     }
@@ -105,38 +105,32 @@ class AppFixtures extends Fixture
     {
         $output = [];
 
-        foreach($users as $user) {
-            foreach(Constants::NOTES_DEFAULT as $item) {
-                $note = new Note();
-                $note->setTitle($item['title']);
-                $note->setContent($item['content']);
-                $note->setType($item['type']);
-                $note->setUser($user);
-                $note->setCategory($categories[$item['category_indice']]);
-    
-                $output[] = $note;
-                $this->manager->persist($note);
-            }
+        foreach(Constants::NOTES_DEFAULT as $item) {
+            $note = new Note();
+            $note->setTitle($item['title']);
+            $note->setContent($item['content']);
+            $note->setType($item['type']);
+            $note->setUser($users[rand(0, 1)]);
+            $note->setCategory($categories[$item['category_indice']]);
+
+            $output[] = $note;
+            $this->manager->persist($note);
         }
+        
         
         $this->manager->flush();
         return $output;
     }
 
-    private function loadRayons(array $notes)
+    private function loadRayons()
     {
         $output = [];
-        foreach($notes as $note) {
-            if (1 === $note->getType()) {
-                foreach(Constants::RAYONS_DEFAULT as $ray) {
-                    $rayon = new Rayon();
-                    $rayon->setNom($ray['nom']);
-                    $rayon->setNote($note);
+        foreach(Constants::RAYONS_DEFAULT as $item) {
+            $rayon = new Rayon();
+            $rayon->setNom($item['nom']);
 
-                    $output[] = $rayon;
-                    $this->manager->persist($rayon);
-                }
-            }
+            $output[] = $rayon;
+            $this->manager->persist($rayon);
         }
 
         $this->manager->flush();
