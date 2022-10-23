@@ -12,13 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: RayonRepository::class)]
 #[ApiResource(
     collectionOperations: [
-        'get_by_note' => [
-            'normalization_context' => [
-                'groups' => ['rayon:list']
-            ],
-            'path' => '/rayons/note/{id}',
-            'method' => 'get'
-        ],
+        'get'
     ],
     itemOperations: [
         'get' => [
