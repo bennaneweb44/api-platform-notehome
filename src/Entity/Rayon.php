@@ -11,6 +11,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RayonRepository::class)]
 #[ApiResource(
+    collectionOperations: [
+        'get_by_note' => [
+            'normalization_context' => [
+                'groups' => ['rayon:list']
+            ],
+            'path' => '/rayons/note/{id}',
+            'method' => 'get'
+        ],
+    ],
     itemOperations: [
         'get' => [
             'normalization_context' => [
@@ -28,11 +37,11 @@ class Rayon
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['rayon:read'])]
+    #[Groups(['rayon:list', 'rayon:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['rayon:read'])]
+    #[Groups(['rayon:list', 'rayon:read'])]
     private ?string $nom = null;
 
     #[ORM\OneToMany(mappedBy: 'rayon', targetEntity: Element::class)]
