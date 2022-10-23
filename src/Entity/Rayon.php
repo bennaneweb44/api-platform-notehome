@@ -12,7 +12,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: RayonRepository::class)]
 #[ApiResource(
     collectionOperations: [
-        'get'
+        'get',
+        'post'
     ],
     itemOperations: [
         'get' => [
