@@ -87,10 +87,10 @@ class Note
     #[Groups(['note:list', 'note:read', 'note:write', 'category:read'])]
     private ?Category $category = null;
 
-    #[ORM\OneToMany(mappedBy: 'note', targetEntity: Element::class)]
+    #[ORM\OneToMany(mappedBy: 'note', cascade: ['remove'], targetEntity: Element::class)]
     private Collection $elements;
 
-    #[ORM\OneToMany(mappedBy: 'note', targetEntity: Rayon::class)]
+    #[ORM\OneToMany(mappedBy: 'note', cascade: ['remove'], targetEntity: Rayon::class)]
     private Collection $rayons;
 
     public function __construct()
