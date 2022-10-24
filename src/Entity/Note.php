@@ -39,7 +39,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'path' => '/notes/type/{type}',
             'method' => 'get'
         ],
-        'post'
+        'post' => [
+            'normalization_context' => [
+                'groups' => ['note:list', 'user:read', 'category:read']
+            ],
+        ]
     ],
     itemOperations: [
         'get' => [
