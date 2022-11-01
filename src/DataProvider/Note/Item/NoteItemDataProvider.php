@@ -9,6 +9,7 @@ use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\Repository\ShareRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Pusher\Pusher;
 
 final class NoteItemDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface
 {
@@ -36,6 +37,11 @@ final class NoteItemDataProvider implements ItemDataProviderInterface, Restricte
 
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?Note
     {
+        // Send notification
+        $pusher = new Pusher("ca4f0d23201d79ed29c6", "08ca920174c3fd6eefee", "1499804", array('cluster' => 'eu'));
+
+        $pusher->trigger('pusher', 'note-done', array('message' => 'hello world'));
+
         // Note
         $note = $this->noteRepository->findOneBy([
             'id' => $id
