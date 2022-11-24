@@ -8,6 +8,8 @@ use App\Service\UserService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
+use App\Repository\ElementRepository;
+use Symfony\Component\HttpFoundation\Response;
 
 final class ElementDataPersister implements ContextAwareDataPersisterInterface
 {
@@ -22,6 +24,11 @@ final class ElementDataPersister implements ContextAwareDataPersisterInterface
     private $shareRepository;
 
     /**
+     * @var ElementRepository
+     */
+    private $elementRepository;
+
+    /**
      * @var Userservice
      */
     private $userService;
@@ -29,10 +36,12 @@ final class ElementDataPersister implements ContextAwareDataPersisterInterface
     public function __construct(
         EntityManagerInterface $entityManager, 
         ShareRepository $shareRepository,
+        ElementRepository $elementRepository,
         UserService $userService
     ) {
         $this->entityManager = $entityManager;
         $this->shareRepository = $shareRepository;
+        $this->elementRepository = $elementRepository;
         $this->userService = $userService;
     }
     
@@ -43,6 +52,16 @@ final class ElementDataPersister implements ContextAwareDataPersisterInterface
 
     public function persist($data, array $context = [])
     {
+        $elementExist = $this->elementRepository->findOneBy([
+            'nom' => $data->getNom(),
+            'note' => $data->getNote(),
+            'rayon' => $data->getRayon()
+        ]);
+
+        if ($elementExist instanceof Element) {
+            return new Response('Element already exist', Response::HTTP_BAD_REQUEST);
+        }
+
         $currentUser = $this->userService->getCurrentUser();
 
         // Note
