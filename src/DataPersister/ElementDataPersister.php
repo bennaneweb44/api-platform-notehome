@@ -52,14 +52,16 @@ final class ElementDataPersister implements ContextAwareDataPersisterInterface
 
     public function persist($data, array $context = [])
     {
-        $elementExist = $this->elementRepository->findOneBy([
-            'nom' => $data->getNom(),
-            'note' => $data->getNote(),
-            'rayon' => $data->getRayon()
-        ]);
-
-        if ($elementExist instanceof Element) {
-            return new Response('Element already exist', Response::HTTP_BAD_REQUEST);
+        if ('post' === $context['item_operation_name']) {
+            $elementExist = $this->elementRepository->findOneBy([
+                'nom' => $data->getNom(),
+                'note' => $data->getNote(),
+                'rayon' => $data->getRayon()
+            ]);
+    
+            if ($elementExist instanceof Element) {
+                return new Response('Element already exist', Response::HTTP_BAD_REQUEST);
+            }
         }
 
         $currentUser = $this->userService->getCurrentUser();
