@@ -52,7 +52,7 @@ final class ElementDataPersister implements ContextAwareDataPersisterInterface
 
     public function persist($data, array $context = [])
     {
-        if ('post' === $context['item_operation_name']) {
+        if (isset($context['collection_operation_name']) && 'post' === $context['collection_operation_name']) {
             $elementExist = $this->elementRepository->findOneBy([
                 'nom' => $data->getNom(),
                 'note' => $data->getNote(),
