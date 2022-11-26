@@ -26,6 +26,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ],
         'put'
     ],
+    order: ['nom' => 'ASC']
 )]
 class Rayon
 {
