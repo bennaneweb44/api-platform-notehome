@@ -70,7 +70,7 @@ class EmailController extends AbstractController
             $mail->Port       = 465;
 
             // Recipients
-            $mail->setFrom($email, 'Contact BW');
+            $mail->setFrom($this->getParameter('app.smtp_username'), 'Contact BW');
             $mail->addAddress($this->getParameter('app.email_to_address'), 'Bennane Web');
 
             // Content
